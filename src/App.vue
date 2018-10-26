@@ -1,17 +1,20 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <am-drawer></am-drawer>
+    <navigation-bar></navigation-bar>
+    <animatedsidenavigation direction="left" state="open"></animatedsidenavigation>
   </div>
 </template>
 
 <script>
-import SideDrawer from './components/SideDrawer'
+import NavigationBar from './components/NavigationBar'
+import AnimatedSideNavigation from './components/AnimatedSideNavigation'
 
 export default {
   name: 'app',
   components: {
-    'am-drawer': SideDrawer
+    'navigation-bar': NavigationBar,
+    'animatedsidenavigation': AnimatedSideNavigation
   },
   data () {
     return {

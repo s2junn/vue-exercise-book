@@ -1,5 +1,5 @@
 <template>
-    <div class="am-side-drawer" direction="left">
+    <div class="navigation-bar">
         <h2>Navigation Bar</h2>
         <nav>
             <router-link 
@@ -11,10 +11,9 @@
     </div>
 </template>
 
-
 <script>
 export default {
-    name: 'Navigation',
+    name: 'NavigationBar',
     extends: {},
     mixins: {},
     props: {},
@@ -48,10 +47,9 @@ export default {
     computed: {},
     watch: {},
     methods: {},
-    beforeCreate: {}
+    beforeCreate: function () {}
 }
 </script>
-
 
 <style lang="scss" scoped>
 .spacing {
