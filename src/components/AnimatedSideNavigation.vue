@@ -1,12 +1,6 @@
 <template>
-    <div class="animatedsidenavigation" :class="{ open: isOpen }">
-        
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-        <a href="#">App</a>
-        <a href="#">Home</a>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
-        
+    <div class="animatedsidenavigation" :class="{ open: isOpen }" :style="`${ dimension }: ${ size };`">
+        <slot name="navigation-menu"></slot>
     </div>
 </template>
 
@@ -24,6 +18,13 @@
                     return [ 'left', 'right', 'bottom', 'top' ].includes( value ) ? value : 'right';
                 }
             },
+            size: {
+                type: String,
+                default: '250px',
+                validator () {
+                    return true;
+                }
+            },
             state: {
                 type: String,
                 default: 'close',
@@ -37,10 +38,18 @@
                 isOpen: false
             }
         },
-        computed: {},
+        computed: {
+            dimension () {
+                if ( this.direction === 'left' || this.direction === 'right' ) {
+                    return 'width';
+                } else {
+                    return 'height';
+                }
+            }
+        },
         components: {},
         watch: {
-            isOpen: function ( opened ) {
+            isOpen ( opened ) {
                 if ( opened ) {
                     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
                 } else {
@@ -92,6 +101,9 @@
 
         &.open {
             width: 250px;
+            & + div {
+                margin-left: 250px;
+            }
         }
 
         a {

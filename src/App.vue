@@ -1,7 +1,8 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-    <navigation-bar></navigation-bar>
+    <router-view>
+      <navigation-bar></navigation-bar>
+    </router-view>
     <animatedsidenavigation direction="left" state="open"></animatedsidenavigation>
   </div>
 </template>
