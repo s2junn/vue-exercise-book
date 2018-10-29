@@ -26,47 +26,54 @@
             },
             state: {
                 type: String,
-                default: 'open',
+                default: 'close',
                 validator ( value ) {
                     return [ 'open', 'close' ].includes( value );
                 }
             }
         },
-        data: function () {
+        data () {
             return {
-                isOpen: false || this.state === 'open'
+                isOpen: false
             }
         },
         computed: {},
         components: {},
-        watch: {},
-        methods: {
-            toggle: function () {
-                this.isOpen ? this.close() : this.open();
-            },
-            open: function () {
-                this.isOpen = true;
-                document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-            },
-            close: function () {
-                this.isOpen = false;
-                document.body.style.backgroundColor = "none";
+        watch: {
+            isOpen: function ( opened ) {
+                if ( opened ) {
+                    document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                } else {
+                    document.body.style.backgroundColor = "transparent";
+                }
             }
         },
-        beforeCreate: function () {},
-        created: function () {
+        methods: {
+            toggle () {
+                this.isOpen ? this.close() : this.open();
+            },
+            open () {
+                this.isOpen = true;
+            },
+            close () {
+                this.isOpen = false;
+            }
+        },
+        beforeCreate () {},
+        created () {
             console.log( '*** created ***' );
-            console.log( 'direction = ', this.direction );
+
+            let opened = false || this.state === 'open';
+            opened ? this.open() : this.close();
         },
-        beforeMount: function () {},
-        mounted: function () {
+        beforeMount () {},
+        mounted () {
             console.log( '*** mounted ***' );
-            console.log( 'direction = ', this.direction );
         },
-        beforeUpdate: function () {},
-        updated: function () {},
-        beforeDestroy: function () {},
-        destroyed: function () {}
+        beforeUpdate () {},
+        updated () {},
+        beforeDestroy () {},
+        destroyed () {}
     }
 </script>
 
