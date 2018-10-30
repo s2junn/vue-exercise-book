@@ -1,5 +1,5 @@
 <template>
-    <div class="animatedsidenavigation" :class="{ open: isOpen }" :style="`${ dimension }: ${ size };`">
+    <div class="animatedsidenavigation" :class="[ direction, state, type ]">
         <slot name="navigation-menu"></slot>
     </div>
 </template>
@@ -22,6 +22,8 @@
                 type: String,
                 default: '250px',
                 validator () {
+                    // 12.5%, 20em, 250px
+                    // 에서 단위만 떼어낼 수 있는 정규식 필요
                     return true;
                 }
             },
@@ -31,6 +33,13 @@
                 validator ( value ) {
                     return [ 'open', 'close' ].includes( value );
                 }
+            },
+            type: {
+                type: String,
+                default: 'cover',
+                validator ( value ) {
+                    return [ 'cover', 'push' ].includes( value );
+                }
             }
         },
         data () {
@@ -39,6 +48,11 @@
             }
         },
         computed: {
+            classes () {
+                return {
+
+                };
+            },
             dimension () {
                 if ( this.direction === 'left' || this.direction === 'right' ) {
                     return 'width';
@@ -49,6 +63,23 @@
         },
         components: {},
         watch: {
+            direction ( direction ) {
+                // 유효성 검사
+                let directions = [ 'left', 'right', 'bottom', 'top' ];
+                if ( !directions.includes( direction ) ) {
+                    direction = 'left';
+                }
+
+                // 기존에 담겨있는 class 가 있는지 확인
+                for ( const d of directions ) {
+                    if ( this.classes.includes( d ) ) {
+                        delete this.classes.d;
+                    }
+                }
+
+                // .animated-navigation.left
+                this.classes.push( direction )
+            },
             isOpen ( opened ) {
                 if ( opened ) {
                     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
@@ -88,16 +119,19 @@
 
 <style lang="scss" scoped>
     .animatedsidenavigation {
-        height: 100%;
-        width: 0;
         position: fixed;
+        width: 0;
+        height: 0;
         z-index: 1;
-        top: 0;
-        left: 0;
-        background-color: #111;
         overflow-x: hidden;
-        padding-top: 60px;
         transition: 0.5s;
+        // background-color: #111;
+        // padding-top: 60px;
+
+        &.left   { left   : 0; top      : 0; height : 100%; }
+        &.top    { left   : 0; top      : 0; width  : 100%; }
+        &.right  { right  : 0; top      : 0; height : 100%; }
+        &.bottom { left   : 0; bottom   : 0; width  : 100%; }
 
         &.open {
             width: 250px;

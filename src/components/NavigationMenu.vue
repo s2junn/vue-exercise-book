@@ -1,20 +1,17 @@
 <template>
-    <div class="navigation-bar">
-        <h2>Navigation Bar</h2>
-        <nav>
-            <router-link 
-                class="spacing"
-                v-for="routes in links" 
-                v-bind:key="`${ routes.id }`" 
-                :to="`${ routes.page }`">{{ routes.text }}</router-link>
-        </nav>
-    </div>
+    <div class="navigation-menu">
+        <!--slot name="header"></slot-->
+        <!--slot name="profile"></slot-->
+        <!--slot name="coupon"></slot-->
+        <!--slot name="management"></slot-->
+        <!--slot name="settings"></slot-->
+        <!--slot name="footer"></slot-->
     </div>
 </template>
 
 <script>
 export default {
-    name: 'NavigationBar',
+    name: 'NavigationMenu',
     extends: {},
     mixins: {},
     props: {},
