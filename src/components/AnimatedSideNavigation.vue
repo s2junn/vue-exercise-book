@@ -40,6 +40,10 @@
                 validator ( value ) {
                     return [ 'cover', 'push' ].includes( value );
                 }
+            },
+            backgroundColor: {
+                type: Color,
+                default: 'rgba(0, 0, 0, 0.4)'
             }
         },
         data () {
