@@ -3,19 +3,19 @@
     <router-view>
       <navigation-bar></navigation-bar>
     </router-view>
-    <animatedsidenavigation direction="left" state="open"></animatedsidenavigation>
+    <drawer direction="left" state="open"></drawer>
   </div>
 </template>
 
 <script>
 import NavigationBar from './components/NavigationBar'
-import AnimatedSideNavigation from './components/AnimatedSideNavigation'
+import Drawer from './components/Drawer'
 
 export default {
   name: 'app',
   components: {
     'navigation-bar': NavigationBar,
-    'animatedsidenavigation': AnimatedSideNavigation
+    'drawer': Drawer
   },
   data () {
     return {

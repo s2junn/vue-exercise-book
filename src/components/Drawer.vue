@@ -1,12 +1,12 @@
 <template>
-    <div class="animatedsidenavigation" :class="[ direction, state, type ]">
+    <div class="drawer" :class="[ direction, state, type ]">
         <slot name="navigation-menu"></slot>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'animatedsidenavigation',
+        name: 'drawer',
         extends: {},
         mixins: {},
         props: {
@@ -42,8 +42,13 @@
                 }
             },
             backgroundColor: {
-                type: Color,
-                default: 'rgba(0, 0, 0, 0.4)'
+                type: String,
+                default: 'rgba(0, 0, 0, 0.4)',
+                validator ( value ) {
+                    // rgba 형태만 지원
+                    let match = /^rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0?\.\d|1(\.0)?)\)$/.exec( value );
+                    return !!match;
+                }
             }
         },
         data () {
