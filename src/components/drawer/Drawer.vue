@@ -1,5 +1,5 @@
 <template>
-    <div class="drawer" :class="[ direction, state, type ]">
+    <div class="drawer" :class="[ direction, isOpen ? 'open' : 'close', type ]" :style="`${ dimension }: ${ size }`">
         <slot name="navigation-menu"></slot>
     </div>
 </template>
@@ -14,7 +14,6 @@
                 type: String,
                 default: 'left',
                 validator ( value ) {
-                    console.log( 'default value = ', value );
                     return [ 'left', 'right', 'bottom', 'top' ].includes( value ) ? value : 'right';
                 }
             },
@@ -46,7 +45,8 @@
                 default: 'rgba(0, 0, 0, 0.4)',
                 validator ( value ) {
                     // rgba 형태만 지원
-                    let match = /^rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0?\.\d|1(\.0)?)\)$/.exec( value );
+                    let subject = value.replace(/\s/g, '');
+                    let match = /^rgba\((0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0|255|25[0-4]|2[0-4]\d|1\d\d|0?\d?\d),(0?\.\d|1(\.0)?)\)$/.exec( subject );
                     return !!match;
                 }
             }
@@ -92,8 +92,10 @@
             isOpen ( opened ) {
                 if ( opened ) {
                     document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+                    document.body.addEventListener( 'click', this.close );
                 } else {
                     document.body.style.backgroundColor = "transparent";
+                    document.body.removeEventListener('click', this.close);
                 }
             }
         },
@@ -129,23 +131,53 @@
 <style lang="scss" scoped>
     .animatedsidenavigation {
         position: fixed;
-        width: 0;
-        height: 0;
         z-index: 1;
         overflow-x: hidden;
         transition: 0.5s;
         // background-color: #111;
         // padding-top: 60px;
 
-        &.left   { left   : 0; top      : 0; height : 100%; }
-        &.top    { left   : 0; top      : 0; width  : 100%; }
-        &.right  { right  : 0; top      : 0; height : 100%; }
-        &.bottom { left   : 0; bottom   : 0; width  : 100%; }
+        &.left   { 
+            left   : 0; 
+            top    : 0; 
+            height : 100%; 
+
+            &.close {
+                left: -100%;
+            }
+        }
+        &.top    { 
+            left   : 0; 
+            top    : 0; 
+            width  : 100%; 
+
+            &.close {
+                top: -100%;
+            }
+        }
+        &.right  { 
+            right  : 0; 
+            top    : 0; 
+            height : 100%; 
+
+            &.close {
+                right: -100%;
+            }
+        }
+        &.bottom { 
+            left   : 0; 
+            bottom : 0; 
+            width  : 100%; 
+
+            &.close {
+                bottom: -100%;
+            }
+        }
 
         &.open {
-            width: 250px;
-            & + div {
+            &.push + div {
                 margin-left: 250px;
+                transition: 0.5s;
             }
         }
 
